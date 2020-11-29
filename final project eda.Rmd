@@ -1,0 +1,66 @@
+---
+title: "Final project EDA"
+author: "Yuxin Liu"
+output: html_notebook
+---
+#### 1. Guiding question: What factors impact on people's happiness score the most? 
+
+
+#### 2. Become acquainted with your data sources:
+* Where did you find them?      
+I found the data sources on World Happiness Report official website.      
+
+*	Who collected/maintains them?       
+Acoording to their official website, the data was collected from the Gallup World Poll, and supported by the Ernesto Illy Foundation, illycaffè, Davines Group, Blue Chip Foundation, the William, Jeff, and Jennifer Gross Family Foundation, and Unilever’s largest ice cream brand Wall’s.       
+
+* When & Why were they originally collected?         
+The data was collected in 2015. The intention was to measure the happiness of people and to use the data to help guide public policy.  
+
+*	What does a case represent in each data source, and how many total cases are available?      
+```{r}
+df2015 <- read.csv("2015.csv")
+
+df2015
+```
+There are 158 cases in the dataset. A case in represents a country's happiness index.     
+
+*	What are some of the variables that you plan to use?            
+I'm going to use `Country`, `Region`,`happiness.score`, `Economy..GDP.per.Capita`, `Family`, `Health..Life.Expectancy`, `Freedom`, `Trust..Government.Corruption`, and `Generosity`
+
+#### 3.	Explore intuition related to the research question:      
+* Create some informative plots and summary statistics        
+```{r message=FALSE, warning=FALSE}
+library(DataComputing)
+#summary(df2015)
+
+Region <- head(df2015,10) %>%
+  group_by(Region) %>%
+  summarise(n = n()) %>%
+  mutate( percentage = signif(100 * ( n /sum(n)),2))
+
+ggplot(data = Region) +
+  geom_bar(mapping  =  aes(x = "", y = percentage, fill = Region), stat = "identity") +
+  geom_text ( aes(x = c(1,1,1), y = c(100 -( percentage/2 +c(0,cumsum(percentage)[-length(Region)]))),label = paste(percentage,"%"))) +
+  ggtitle("2015 happiest region based on top 10 happiest country") +
+  labs(x = "Percentage",y = "")+
+  coord_polar("y")
+
+
+
+my_data <- df2015[, c(4,6,7,8,9,10,11)]
+cormatrix <- cor(my_data)
+library(corrplot)
+corrplot(cormatrix, method = "number",tl.cex = 0.75)
+
+pairs(~Happiness.Score + Economy..GDP.per.Capita. + Family + Health..Life.Expectancy. + Freedom + Trust..Government.Corruption. + Generosity, data=df2015)
+```
+
+* Describe preliminary observations and intuition about the research question          
+
+According to the output above, there are some positive relationship between the happiness score and Economy..GDP.per.Capita, Family, Health..Life.Expectancy, Freedom, Trust..Government.Corruption, and Generosity. Among all the variables, happiness score is most related to Economy GDP per Capita. The higher GDP, the higher happiness score.  The intuition about the research question is to find out the relations between the variables to come up with the result that which field need to be improved to boost the happiness score and make people happier.
+
+#### 4. TWO Data Sources
+I'm going to use the dataset from World Happiness Report official website, which is the world happiness report of 2015. And the other I'm going to use is WorldMap from the DataCOmputing package.
+
+
+
