@@ -1,0 +1,45 @@
+---
+title: "Final project EDA"
+author: "Yuxin Liu"
+output: html_notebook
+---
+
+### Data Access
+```{r}
+# clean up the RStudio environment 
+rm(list = ls())
+
+# # Loading packages
+library(mosaic)
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+
+
+```
+
+Since the most recent available data was from 2019, I'm going to compare and contrast using the data from 2015 and 2019.
+```{r}
+# Data sources
+df2015 <- read.csv("2015.csv")
+df2019 <- read.csv("2019.csv")
+
+# Data inspection
+head(df2015, 10)  
+head(df2019, 10)
+
+summary(df2015)
+summary(df2019)
+
+nrow(df2015)
+ncol(df2015)
+nrow(df2019)
+ncol(df2019)
+```
+I noticed that although the number of rows and columns are not the same for df2015 and df2019, there are not many differences, and I'm going to select the features they both have for future analysis. 
+
+
+
+
+### Data Wrangling
+### Data Visualization
