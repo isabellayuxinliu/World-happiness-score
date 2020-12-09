@@ -1,5 +1,5 @@
 ---
-title: "Final project EDA"
+title: "Final project"
 author: "Yuxin Liu"
 output: html_notebook
 ---
@@ -10,15 +10,18 @@ output: html_notebook
 rm(list = ls())
 
 # # Loading packages
+library(DataComputing)
 library(mosaic)
 library(tidyverse)
 library(lubridate)
 library(ggplot2)
-
-
+library(ggalt)
+library(corrplot)
+library(plotly)
+library(gridExtra)
 ```
 
-Since the most recent available data was from 2019, I'm going to compare and contrast using the data from 2015 and 2019.
+Since the most recent available data was from 2019, I'm going to compare and contrast using the data of 2015 and 2019.
 ```{r}
 # Data sources
 df2015 <- read.csv("2015.csv")
@@ -36,10 +39,98 @@ ncol(df2015)
 nrow(df2019)
 ncol(df2019)
 ```
-I noticed that although the number of rows and columns are not the same for df2015 and df2019, there are not many differences, and I'm going to select the features they both have for future analysis. 
-
-
+I noticed that although the number of rows and columns are not the same for df2015 and df2019, there are not many differences, and I'm going to select the features they both have for future analysis.     
+Features in both table: happiness rank, country/region, happiness score, GDP, family/social support, Healthy life expectancy, freedom, generosity, and perception of corruption.
 
 
 ### Data Wrangling
+```{r}
+Year <- c(2015)
+Year2015<- data.frame(Year, df2015)
+names(Year2015) <- c("Year", "Country", " Region", "Happiness_Rank","Happiness_Score","Standard_Error",  "Economy_GDP_per_Capita","Social_Support","Health_Life_Expectancy","Freedom","Trust_Government_Corruption", "Generosity", "Dystopia_Residual")
+
+
+Year2 <- c(2019)
+Year2019 <- data.frame(Year2, df2019)
+names(Year2019) <- c("Year", "Happiness_Rank","Country","Happiness_Score","Economy_GDP_per_Capita","Social_Support","Health_Life_Expectancy","Freedom","Generosity","Trust_Government_Corruption")
+
+New2015 <- Year2015 %>%
+  select("Happiness_Rank","Country","Happiness_Score","Economy_GDP_per_Capita","Social_Support","Health_Life_Expectancy","Freedom","Generosity","Trust_Government_Corruption", "Year")
+
+#convert character to numeric
+FinalTable <- rbind(New2015, Year2019, by= "Country")
+FinalTable[3:10] <- lapply(FinalTable[3:10], as.numeric)
+head(New2015)
+head(Year2019)
+head(FinalTable)
+
+```
+
+
+
 ### Data Visualization
+Overall correlation
+```{r}
+data2015 <- FinalTable %>%
+  filter(Year=="2015")
+cormatrix2015 <- cor(data2015[3:9],use="pairwise.complete.obs")
+corrplot(cormatrix2015, method = "number",tl.cex = 0.75, title="Correlation between Happiness scores and other attributs 2015",mar=c(0,0,1,0))
+
+data2019 <- FinalTable %>%
+  filter(Year=="2019")
+
+cormatrix2019 <- cor(data2019[3:9],use="pairwise.complete.obs")
+corrplot(cormatrix2019, method = "number",tl.cex = 0.75, title="Correlation between Happiness scores and other attributs 2019",mar=c(0,0,1,0))
+data2019
+```
+
+
+Side-by-side boxplot to show how factors related to happiness score have changed over time:
+
+```{r}
+par(mfrow=c(2,3))      
+boxplot(Economy_GDP_per_Capita~Year,data=FinalTable)
+boxplot(Social_Support~Year,data=FinalTable)
+boxplot(Health_Life_Expectancy~Year,data=FinalTable)
+boxplot(Freedom~Year,data=FinalTable)
+boxplot(Generosity~Year,data=FinalTable)
+boxplot(Trust_Government_Corruption~Year,data=FinalTable)
+```
+I'm going to list top 10 countries in 2015 and 2019.
+
+```{r}
+#top 10
+Top2015 <- data2015 %>% select(Country, Happiness_Score) %>% head(n=10)
+Top2019 <- data2019 %>% select(Country, Happiness_Score) %>% head(n=10)
+
+Top2015 <- ggplot(Top2015,aes(x=factor(Country, levels=Country), y=Happiness_Score)) + geom_bar(stat="identity", width = 0.5, fill="darkblue") +labs(title="Top 10 Happiest Countries 2015", x="Country ranked from 1 to 10", y="Score")
+Top2019 <- ggplot(Top2019,aes(x=factor(Country, levels=Country), y=Happiness_Score)) +geom_bar(stat="identity", width = 0.5, fill="darkgreen")+labs(title="Top 10 Happiest Countries 2019", x="Country ranked from 1 to 10", y="Score")
+
+grid.arrange(Top2015, Top2019)
+```
+
+
+
+
+```{r message=FALSE, warning=FALSE}
+Freedom2015 <- plot_ly(data2015, x=~Happiness_Score, 
+                     y = ~Freedom, 
+                     color = ~Country,
+                     size= ~Happiness_Score) %>% 
+                    layout(title="Freedom vs. Happiness Score (2015)", 
+                           xaxis= list(title = "Happiness Score"),
+                           yaxis= list(title = "Freedom"))
+Freedom2019 <- plot_ly(data2019, x=~Happiness_Score, 
+                     y = ~Freedom, 
+                     color = ~Country,
+                     size= ~Happiness_Score) %>% 
+                    layout(title="Freedom vs. Happiness Score (2019)", 
+                           xaxis= list(title = "Happiness Score"),
+                           yaxis= list(title = "Freedom"))
+
+htmltools::tagList(list(Freedom2015))
+htmltools::tagList(list(Freedom2019))
+```
+
+
+
