@@ -18,10 +18,10 @@ output:  html_notebook
 *Description: (1) Analysis includes at least two different data sources. (2) Primary data source may NOT be loaded from an R package--though supporting data may. (3) Access to all data sources is contained within the analysis. (4) Imported data is inspected at beginning of analysis using one or more R functions: e.g., str, glimpse, head, tail, names, nrow, etc*
 
 (A) .Rmd Line numbers where at least two different data sources are imported:  
-
+49, 50
 
 (B) .Rmd Line numbers for inspecting data intake:  
-
+53-62
 
 ### Data Wrangling (5 out of 8 required)
 
@@ -29,19 +29,19 @@ output:  html_notebook
 
 
 (A) .Rmd Line number(s) for general data wrangling: 
-
+95, 98
 
 (B) .Rmd Line number(s) for a join operation: 
-
+89
 
 (C) .Rmd Line number(s) for a spread or gather operation (or equivalent):
-
+94-98
 
 (D) .Rmd Line number(s) for use of regular expressions: 
 
 
 (E) .Rmd Line number(s) for use of reduction and/or transformation functions: 
-
+170-174
 
 (F) .Rmd Line number(s) for use of user-defined functions: 
 
@@ -50,7 +50,7 @@ output:  html_notebook
 
 
 (H) .Rmd Line number(s) for use of machine learning (not "wrangling" but scored here): 
-
+273-328
 
 
 ### Data Visualization (3 of 5 required)
@@ -58,16 +58,16 @@ output:  html_notebook
 *Description: Students need not use every function and method introduced in STAT 184, but clear demonstration of proficiency should include a range of useful of data visualizations that are (1) relevant to stated research question for the analysis, (2) include at least one effective display of many--at least 3--variables, and (3) include 3 of the following 5 visualization techniques learned in STAT 184: (+) use of multiple geoms such as points, density, lines, segments, boxplots, bar charts, histograms, etc (+) use of multiple aesthetics--not necessarily all in the same graph--such as color, size, shape, x/y position, facets, etc (+) layered graphics such as points and accompanying smoother, points and accompanying boxplots, overlaid density distributions, etc (+) leaflet maps (+) decision tree and/or dendogram displaying machine learning model results*
 
 
-(A) .Rmd Line number(s) for use of mulitple different geoms:  
-
+(A) .Rmd Line number(s) for use of multiple different geoms:  
+123, 141, 154-156, 306-307
 (B) .Rmd Line number(s) for use of multiple aesthetics:  
-
+154, 155, 161, 162, 184, 215
 (C) .Rmd Line number(s) for use of layered graphics:  
-
+141
 (D) .Rmd Line number(s) for use of leaflet maps:  
 
 (E) .Rmd Line number(s) for use of decision tree or dendogram results:    
-
+287 to 315
 
 
 
