@@ -81,7 +81,9 @@ output:  html_notebook
 
 (D) *Overall Quality:* Submitted project shows significant effort to produce a high-quality and thoughtful analysis that showcases STAT 184 skills. (2) The project must be self-contained, such that the analysis can be entirely rerun without errors. (3) Analysis is coherent, well-organized, and free of extraneous content such as data dumps, unrelated graphs, and other content that is not overtly connected to the research question.
 
-(E) *EXTRA CREDIT* (1) Project is submitted as a self-contained GitHub Repo (2) project submission is a functioning github.io webpage generated for the project Repo. Note: a link to the GitHub Repo itself will be awarded partial credit, but does not itself qualify as a "webpage" of the analysis.
+(E) *EXTRA CREDIT* (1) Project is submitted as a self-contained GitHub Repo (2) project submission is a functioning github.io webpage generated for the project Repo. Note: a link to the GitHub Repo itself will be awarded partial credit, but does not itself qualify as a "webpage" of the analysis.  
+
+https://github.com/meeleaewes/stat184_final
 
 
 
